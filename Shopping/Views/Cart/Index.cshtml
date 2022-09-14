@@ -1,0 +1,62 @@
+﻿@model ShoppingCartVM
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<h1 class="my-3">Your Cart</h1>
+
+@if (Model.ShoppingCartItems.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th></th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th></th>
+                <th>Product Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var product in Model.ShoppingCartItems)
+            {
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td>
+                        <img width=70px src="~/Images/@product.Image" />
+                    </td>
+                    <td>@product.Price.ToString("C2")</td>
+                    <td>
+                        <a class="btn btn-info btn-sm me-1" asp-action="DecreaseProduct" asp-route-id="@product.ProductId">-</a>
+                        @product.Quantity
+                        <a class="btn btn-primary btn-sm ms-1" asp-action="AddProduct" asp-route-id="@product.ProductId">+</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger btn-sm" asp-action="DeleteProduct" asp-route-id="@product.ProductId">Remove</a>
+                    </td>
+                    <td>@Model.ShoppingCartItems.Where(x => x.ProductId == product.ProductId).Sum(x => x.Quantity * x.Price).ToString("C2")</td>
+                </tr>
+            }
+            @*<tr>
+        <td class="end-0" colspan="3">Total Price: @Model.Total.ToString("C2")</td>
+        </tr>*@
+
+        </tbody>
+    </table>
+    <div class="float-end">
+        <h4 class="bg-dark p-2">
+            Total Price: @Model.Total.ToString("C2")         
+        </h4>
+    </div>
+    <div>
+        <a class="btn btn-danger" asp-action="ClearShoppingCart">Clear Shopping Cart</a>
+        <a class="btn btn-primary mx-2" asp-action="Checkout">Checkout</a>
+    </div>
+}
+else
+{
+    <h3 class="display-4 text-center">Your shopping cart is empty. Please add some products.</h3>
+}

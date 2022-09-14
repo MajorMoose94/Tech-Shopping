@@ -1,0 +1,33 @@
+﻿@model Shopping.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="/Images/@Html.DisplayFor(model => model.Image)" alt="product image" width="100%" /></div>
+            <div class="col-md-6">
+                <p class="display-6 fw-bolder">@Model.Name</p>
+                <div class="fs-5 mb-5 fw-bolder">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <h3 class="mt-5">CAD @Model.Price.ToString("C2")</h3>
+                    }
+                </div>
+                <p class="lead">@Model.Description</p>
+                <div class="d-flex mt-3">
+
+                    <a class="btn btn-outline-primary float-start" type="button" asp-controller="Home" asp-action="Index">
+                        Back to Products
+                    </a>
+                    <a class="btn btn-outline-warning ms-auto" type="button" asp-controller="Cart" asp-action="AddProduct" asp-route-id="@Model.Id">
+                        <i class="bi-cart-fill me-1"></i>
+                        Add to cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
